@@ -11,7 +11,12 @@ import Chat from './components/Chat.js';
 
 // Create app navigator
 const navigator = createStackNavigator({
-  Start: { screen: Start },
+  Start: {
+    screen: Start,
+    navigationOptions: {
+      header: null
+    }
+  },
   Chat: { screen: Chat }
 });
 
