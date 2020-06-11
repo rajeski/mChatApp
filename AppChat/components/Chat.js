@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 // Import React Native components
 import NetInfo from "@react-native-community/netinfo";
 import { StyleSheet, Text, View, Platform, AsyncStorage } from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+import { decode, encode } from 'base-64';
+if (!global.btoa) { global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 
 // Import Firebase
 const firebase = require('firebase');
@@ -131,8 +135,11 @@ export default class Chat extends Component {
     }
   }
   componentDidMount() {
-    NetInfo.isConnected.fetch().then(isConnected => {
-      if (isConnected === true) {
+
+    let isOnline;
+
+    NetInfo.fetch().then(state => {
+      if (state.isConnected === true) {
         console.log('Online');
         this.setState({
           isConnected: true,
@@ -154,7 +161,7 @@ export default class Chat extends Component {
             loggedInText: 'Welcome'
           });
           this.referenceMessageUser = firebase.firestore().collection('messages');
-          this.unsubscribeMessageUser = this.referenceMessageUser.onSnapshot(thi.onCollectionUpdate);
+          this.unsubscribeMessageUser = this.referenceMessageUser.onSnapshot(this.onCollectionUpdate);
         });
       } else {
         console.log('You are offline');
@@ -163,7 +170,9 @@ export default class Chat extends Component {
         });
         this.getMessages();
       }
-    })
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+    });
   }
 
   componentWillUnmount() {
