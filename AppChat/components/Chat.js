@@ -5,9 +5,9 @@ import { StyleSheet, Text, View, Platform, AsyncStorage } from 'react-native';
 import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
-import { decode, encode } from 'base-64';
-if (!global.btoa) { global.btoa = encode }
-if (!global.atob) { global.atob = decode }
+// import { decode, encode } from 'base-64';
+// if (!global.btoa) { global.btoa = encode }
+// if (!global.atob) { global.atob = decode }
 
 // Import Firebase
 const firebase = require('firebase');
@@ -15,6 +15,11 @@ require('firebase/firestore');
 
 // Chat Screen 2 
 export default class Chat extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.name,
+    };
+  };
 
   constructor() {
     super();
@@ -31,26 +36,35 @@ export default class Chat extends Component {
         measurementId: "G-CP7GQ046XR"
       });
     }
-    this.referenceMessageUser = null;
+    // this.referenceMessageUser = null;
     this.referenceMessages = firebase.firestore().collection('messages');
 
     this.state = {
       messages: [],
-      uid: 0,
-      isConnected: false,
+      //     uid: 0,
+      //     isConnected: false,
+      //     user: {
+      //       _id: '',
+      //       name: '',
+      //       avatar: ''
+      //     },
+      //   };
+      // }
       user: {
-        _id: '',
-        name: '',
-        avatar: ''
+        _id: "",
+        name: "",
+        avatar: ""
       },
+      uid: 0
     };
   }
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.state.params.name
-    };
-  };
+
+  // static navigationOptions = ({ navigation }) => {
+  //   return {
+  //     title: navigation.state.params.name,
+  //   };
+  // };
 
   get user() {
     return {
@@ -136,7 +150,7 @@ export default class Chat extends Component {
   }
   componentDidMount() {
 
-    let isOnline;
+    // let isOnline;
 
     NetInfo.fetch().then(state => {
       if (state.isConnected === true) {
@@ -147,8 +161,8 @@ export default class Chat extends Component {
 
         this.authUnsubscribe = firebase.auth().onAuthStateChanged(async user => {
           if (!user) {
-            await firebase.auth().signInAnonymously();
-          }
+            user = await firebase.auth().signInAnonymously();
+          };
 
           // User state is updated 
           this.setState({
