@@ -5,25 +5,22 @@ import { StyleSheet, Text, View, Platform, AsyncStorage } from 'react-native';
 import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
-// import { decode, encode } from 'base-64';
-// if (!global.btoa) { global.btoa = encode }
-// if (!global.atob) { global.atob = decode }
-
 // Import Firebase
 const firebase = require('firebase');
 require('firebase/firestore');
 
 // Chat Screen 2 
 export default class Chat extends Component {
+
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.state.params.name,
+      title: navigation.state.params.name
     };
   };
 
   constructor() {
     super();
-
+    // Firebase information 
     if (!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: "AIzaSyAORBxXKTs5Mwu9SgmApPoue-VyVbedLns",
@@ -36,20 +33,10 @@ export default class Chat extends Component {
         measurementId: "G-CP7GQ046XR"
       });
     }
-    // this.referenceMessageUser = null;
-    this.referenceMessages = firebase.firestore().collection('messages');
+    this.referenceMessages = firebase.firestore().collection("messages");
 
     this.state = {
       messages: [],
-      //     uid: 0,
-      //     isConnected: false,
-      //     user: {
-      //       _id: '',
-      //       name: '',
-      //       avatar: ''
-      //     },
-      //   };
-      // }
       user: {
         _id: "",
         name: "",
@@ -59,70 +46,10 @@ export default class Chat extends Component {
     };
   }
 
-
-  // static navigationOptions = ({ navigation }) => {
-  //   return {
-  //     title: navigation.state.params.name,
-  //   };
-  // };
-
-  get user() {
-    return {
-      name: this.props.navigation.state.params.name,
-      _id: this.state.uid,
-      id: this.state.uid,
-    }
-  }
-
-  onCollectionUpdate = (querySnapshot) => {
-    const messages = [];
-    // Go through each document
-    querySnapshot.forEach((doc) => {
-      // Get Query Document Snapshot's data
-      var data = doc.data();
-      messages.push({
-        _id: data._id,
-        text: data.text,
-        createdAt: data.createdAt.toDate(),
-        user: data.user
-      });
-    });
-
-    this.setState({
-      messages,
-    });
-  };
-
-  addMessage() {
-    console.log(this.state.user)
-    this.referenceMessages.add({
-      _id: this.state.messages[0]._id,
-      text: this.state.messages[0].text || '',
-      createdAt: this.state.messages[0].createdAt,
-      user: this.state.user,
-      image: this.state.messages[0].image || '',
-      location: this.state.messages[0].location || null,
-      uid: this.state.uid,
-    });
-  }
-
-  onSend(messages = []) {
-    this.setState(
-      previousState => ({
-        messages: GiftedChat.append(previousState.messages, messages)
-      }),
-      () => {
-        this.addMessage();
-        this.saveMessage();
-      }
-    );
-  }
-
-  // Functions: Get asyncStorage messages
-  async getMessages() {
-    let messages = '';
+  getMessages = async () => {
+    let messages = "";
     try {
-      messages = await AsyncStorage.getItem('messages') || [];
+      messages = (await AsyncStorage.getItem("messages")) || [];
       this.setState({
         messages: JSON.parse(messages)
       });
@@ -130,109 +57,152 @@ export default class Chat extends Component {
       console.log(error.message);
     }
   };
-
-  // Save asyncStorage messages
-  async saveMessages() {
+  saveMessages = async () => {
     try {
-      await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+      await AsyncStorage.setItem(
+        "messages",
+        JSON.stringify(this.state.messages)
+      );
     } catch (error) {
       console.log(error.message);
     }
   };
 
-  // delete messages from asyncStorage
-  async deleteMessages() {
+  deleteMessages = async () => {
     try {
-      await AsyncStorage.removeItem('messages');
+      await AsyncStorage.removeItem("messages");
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
   componentDidMount() {
-
-    // let isOnline;
-
     NetInfo.fetch().then(state => {
-      if (state.isConnected === true) {
-        console.log('Online');
-        this.setState({
-          isConnected: true,
-        })
-
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged(async user => {
-          if (!user) {
-            user = await firebase.auth().signInAnonymously();
-          };
-
-          // User state is updated 
-          this.setState({
-            uid: user.uid,
-            user: {
-              _id: user.uid,
-              name: this.props.navigation.state.params.name,
-              avatar: '',
-            },
-            loggedInText: 'Welcome'
+      // console.log('Connection type', state.type);
+      if (state.isConnected) {
+        // console.log('Is connected?', state.isConnected);
+        this.authUnsubscribe = firebase
+          .auth()
+          .onAuthStateChanged(async user => {
+            if (!user) {
+              try {
+                await firebase.auth().signInAnonymously();
+              } catch (error) {
+                console.log("Unable to sign in: " + error.message);
+              }
+            }
+            this.setState({
+              isConnected: true,
+              user: {
+                _id: user.uid,
+                name: this.props.navigation.state.params.name
+              },
+              loggedInText:
+                this.props.navigation.state.params.name +
+                " has entered chat",
+              messages: []
+            });
+            // console.log(user);
+            this.unsubscribe = this.referenceMessages
+              .orderBy("createdAt", "desc")
+              .onSnapshot(this.onCollectionUpdate);
           });
-          this.referenceMessageUser = firebase.firestore().collection('messages');
-          this.unsubscribeMessageUser = this.referenceMessageUser.onSnapshot(this.onCollectionUpdate);
-        });
       } else {
-        console.log('You are offline');
         this.setState({
-          isConnected: false,
+          isConnected: false
         });
         this.getMessages();
       }
-      console.log("Connection type", state.type);
-      console.log("Is connected?", state.isConnected);
     });
   }
 
-  componentWillUnmount() {
-    // User Authentication
-    this.authUnsubscribe();
-    // User Changes
-    this.unsubscribeMessageUser();
-  }
-
-  // When offline hide Input-bar
-  renderInputToolbar(props) {
-    if (this.state.isConnected == false) {
-    } else {
-      return (
-        <InputToolbar
-          {...props}
-        />
-      );
-    }
+  onCollectionUpdate = querySnapshot => {
+    const messages = [];
+    querySnapshot.forEach(doc => {
+      var data = doc.data();
+      messages.push({
+        _id: data._id,
+        text: data.text.toString(),
+        createdAt: data.createdAt.toDate(),
+        user: {
+          _id: data.user._id,
+          name: data.user.name,
+          avatar: data.user.avatar
+        }
+      });
+    });
+    this.setState({
+      messages
+    });
   };
 
-  // Render components
+  addMessages = () => {
+    this.referenceMessages.add({
+      _id: this.state.messages[0]._id,
+      text: this.state.messages[0].text,
+      createdAt: this.state.messages[0].createdAt,
+      user: this.state.messages[0].user,
+      uid: this.state.uid
+    });
+  };
+
+  onSend(messages = []) {
+    this.setState(
+      previousState => ({
+        messages: GiftedChat.append(previousState.messages, messages)
+      }),
+      () => {
+        this.addMessages();
+        this.saveMessages();
+      }
+    );
+  }
+
+  renderInputToolbar = props => {
+    if (this.state.isConnected === false) {
+    } else {
+      return <InputToolbar {...props} />;
+    }
+  };
+  componentWillUnmount() {
+    this.authUnsubscribe();
+    this.unsubscribe();
+  }
+
   render() {
     return (
-      // Fullscreen component
-      <View style={{ flex: 1, backgroundColor: this.props.navigation.state.params.backgroundColor }}>
+      <View
+        style={[
+          styles.container,
+          {
+            backgroundColor: this.props.navigation.state.params.selectedColor
+          }
+        ]}>
+        <Text style={styles.userName}>
+          {this.props.navigation.state.params.name} On the ready
+        </Text>
+
         <GiftedChat
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}
           onSend={messages => this.onSend(messages)}
           user={{
-            _id: this.state.uid
+            _id: 1
           }}
         />
-        {Platform.OS === 'android' ? <KeyboardSpacer /> : null}
+        {Platform.OS === "android" ? <KeyboardSpacer /> : null}
       </View>
     );
   }
-};
-
+}
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%"
+    flex: 1
+  },
+  userName: {
+    fontSize: 10,
+    color: "#fff",
+    alignSelf: "center",
+    opacity: 0.5,
+    marginTop: 25
   }
 });

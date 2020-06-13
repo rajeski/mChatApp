@@ -14,7 +14,6 @@ export default class Start extends Component {
   // Render components
   render() {
     return (
-
       <ImageBackground source={require("../assets/BackgroundImage.png")} style={styles.backgroundImage}>
         { /*App title*/}
         <Text style={styles.appTitle}>ChatApp</Text>
@@ -27,7 +26,7 @@ export default class Start extends Component {
             value={this.state.userName}
             placeholder='Your Name...'
           />
-          { /*Select Background color*/}
+          { /*Select background color*/}
           <Text style={styles.choseBackgroundColor}>Choose Background Color:</Text>
           { /*Wrapper for available background colors*/}
           <View style={styles.backgroundColorWrapper}>
@@ -52,7 +51,7 @@ export default class Start extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          { /*Let's Chat --> directs user to conversation screen*/}
+          { /*Let's Chat --> directs user to chat screen*/}
           <Button
             onPress={() => {
               this.props.navigation.navigate('Chat', { userName: this.state.userName, backgroundColor: this.state.backgroundColor });
