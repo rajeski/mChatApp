@@ -19,7 +19,7 @@ export default class Chat extends Component {
 
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.state.params.name
+      title: navigation.state.params.userName,
     };
   };
 
@@ -175,15 +175,9 @@ export default class Chat extends Component {
 
   render() {
     return (
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: this.props.navigation.state.params.selectedColor
-          }
-        ]}>
+      <View style={{ flex: 1, backgroundColor: this.props.navigation.state.params.backgroundColor }}>
         <Text style={styles.userName}>
-          {this.props.navigation.state.params.name} On the ready
+          {this.props.navigation.state.params.name} Running History
         </Text>
 
         <GiftedChat
