@@ -5,9 +5,14 @@ import { StyleSheet, Text, View, Platform, AsyncStorage } from 'react-native';
 import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
+import { decode, encode } from 'base-64';
+
 // Import Firebase
 const firebase = require('firebase');
 require('firebase/firestore');
+
+if (!global.btoa) { global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 
 // Chat Screen 2 
 export default class Chat extends Component {

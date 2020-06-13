@@ -9,10 +9,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Start from './components/Start.js';
 import Chat from './components/Chat.js';
 
-import { decode, encode } from 'base-64';
-if (!global.btoa) { global.btoa = encode }
-if (!global.atob) { global.atob = decode }
-
 // Create App Navigator
 const navigator = createStackNavigator({
   Start: {
