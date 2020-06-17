@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-filename-extension */
+
 // Checked for ES6 codebase compatibility 
 import React, { Component } from 'react';
 // Import React Native components
