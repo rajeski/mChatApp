@@ -1,3 +1,4 @@
+// Checked for ES6 codebase compatibility 
 import React, { Component } from 'react';
 // Import React Native components
 import { StyleSheet, Text, View, TextInput, Button, Alert, ImageBackground, TouchableOpacity } from 'react-native';

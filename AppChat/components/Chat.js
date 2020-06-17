@@ -1,3 +1,4 @@
+// Checked for ES6 codebase compatibility 
 import React, { Component } from 'react';
 // Import React Native components
 import NetInfo from "@react-native-community/netinfo";

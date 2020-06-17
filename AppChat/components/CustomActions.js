@@ -1,3 +1,4 @@
+// Checked for ES6 codebase compatibility 
 // Import required libraries and dependencies 
 import PropTypes from "prop-types";
 import React from "react";
