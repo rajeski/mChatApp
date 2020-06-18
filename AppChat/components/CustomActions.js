@@ -18,7 +18,8 @@ export default class CustomActions extends React.Component {
   }
 
   /**
-    * Requests permission and allows user to select an image/sends url to uploadImage and onSend
+    * Requests permission and allows user to select an image/sends 
+    * url to uploadImage and onSend functionality
     * @async
     * @function pickImage
     */
@@ -44,7 +45,8 @@ export default class CustomActions extends React.Component {
   }
 
   /**
-     * permission and allows user to take a photo/sends url to uploadImage and onSend
+     * Permission and allows user to take a photo/sends url to uploadImage 
+     * and onSend functionality 
      * @async
      * @function takePhoto
      *
@@ -71,7 +73,7 @@ export default class CustomActions extends React.Component {
   }
 
   /**
-    * @function uploadImage
+    * @function uploadImage (for ease of access and functionality)
     * @returns {Promise} XMLHttpRequest
     */
 
@@ -108,7 +110,7 @@ export default class CustomActions extends React.Component {
   }
 
   /**
-   * Requests permission for users' geo-coordinates
+   * Requests permission for users' geo-coordinates (extracts location info)
    * @async
    * @function getLocation
    * @returns {Promise<number>}
@@ -135,7 +137,7 @@ export default class CustomActions extends React.Component {
   }
 
   /**
-   * @function onActionPress
+   * @function onActionPress (executes an action when x is clicked)
    * @returns {actionSheet}
    */
 

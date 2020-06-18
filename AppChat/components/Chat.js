@@ -70,7 +70,7 @@ export default class Chat extends Component {
   }
 
   /**
-  * Loads AsyncStorage messages 
+  * Loads AsyncStorage (a global, key-value store for the app) messages 
   * @async
   * @function getMessages
   * @param {string} messages
@@ -101,7 +101,7 @@ export default class Chat extends Component {
   };
 
   /**
-* Deletes AsyncStorage messages
+* Deletes AsyncStorage (a global, key-value store for the app) messages
 * @async
 * @function deleteMessages
 * @param {string} messages
@@ -154,7 +154,8 @@ export default class Chat extends Component {
   }
 
   /**
-      * Update message state with recent data
+      * Update message state with recent data (this modifies existing an 
+      * document and/or documents in a collection)
       * @function onCollectionUpdate
       * @param {string} _id - Message ID
       * @param {string} text - Content
@@ -189,7 +190,7 @@ export default class Chat extends Component {
   };
 
   /**
-  * Add message
+  * Add message (interconnection between the application and Firebase)
   * @function addMessage
   * @param {string} _id - Message ID
   * @param {string} text - Content
@@ -213,7 +214,7 @@ export default class Chat extends Component {
   };
 
   /**
-* Sends messages
+* Sends messages (using the GiftedChat library for this functionality)
 * @async
 * @function onSend
 * @param {string} messages
@@ -233,7 +234,7 @@ export default class Chat extends Component {
   }
 
   /**
-    * Input toolbar rendered if/when online
+    * Input toolbar rendered if/when online (enabling this functionality)
     * @function renderInputToolbar
     * @param {*} props
     * @returns {InputToolbar}
@@ -247,7 +248,7 @@ export default class Chat extends Component {
   };
 
   /**
-    * @function renderCustomView
+    * @function renderCustomView (geo-location functionality for the app)
     * @param {*} props
     * @returns {MapView}
     * @returns {boolean} false
@@ -274,7 +275,7 @@ export default class Chat extends Component {
   }
 
   /**
-   * Renders getLocation; pickImage; takePhoto 
+   * Renders getLocation; pickImage; takePhoto (end-user's menu options)
    * @function renderCustomActions
    * @param {*} props
    * @returns {CustomActions}
