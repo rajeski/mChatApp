@@ -49,7 +49,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 console.disableYellowBox = true;
 window.addEventListener = x => x;
 
-// Create Chat Screen 2 class 
+// Create, Chat Screen 2 class 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

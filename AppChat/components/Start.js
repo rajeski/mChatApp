@@ -1,11 +1,20 @@
+// Check for ES6 codebase compatibility 
+
 /* eslint-disable react/jsx-filename-extension */
 
-// Checked for ES6 codebase compatibility 
+/**
+* @description StartScreen, user can type name and select chat-screen 
+* background color
+* @class Start
+* @requires React
+* @requires React-Native
+*/
+
 import React, { Component } from 'react';
 // Import React Native components
 import { StyleSheet, Text, View, TextInput, Button, Alert, ImageBackground, TouchableOpacity } from 'react-native';
 
-// Chat Screen 1 
+// Start, Chat Screen 1 class
 export default class Start extends Component {
 
   // Define state
