@@ -1,10 +1,26 @@
+// Check for ES6 codebase compatibility 
+
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable react/destructuring-assignment */
 
-// Checked for ES6 codebase compatibility 
-// Import required libraries and dependencies 
+/**
+* @description Handling CustomAction text-input, field button
+* @class CustomActions
+* @requires Expo-Image-Picker
+* @requires Expo-Permissions
+* @requires Expo-Location
+* @requires Firebase
+* @requires Firestore
+* @requires Prop-Types
+* @requires React
+* @requires React-Native
+* @requires Prop-Types
+*/
+
+// Import required Expo; Firebase and React libraries and dependencies 
+
 import PropTypes from "prop-types";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -72,12 +88,20 @@ export default class CustomActions extends React.Component {
     }
   }
 
+  // Allow Blob (binary large object) image upload to Firebase 
+
   /**
     * @function uploadImage (for ease of access and functionality)
     * @returns {Promise} XMLHttpRequest
+    * @async
     */
 
-  // Allow Blob (binary large object) image upload to Firebase 
+  /**
+    * Upload images to Firebase
+    * @function uploadImageFetch
+    * @async
+   */
+
   async uploadImage(uri) {
     try {
       const blob = await new Promise((resolve, reject) => {

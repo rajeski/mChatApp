@@ -1,3 +1,5 @@
+// Check for ES6 codebase compatibility 
+
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
@@ -7,9 +9,23 @@
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 
-// Checked for ES6 codebase compatibility 
+/**
+ * @description Chatscreen, write/send messages; share images/take photo; or
+ * share their geo-location
+ * @class Chat
+ * @requires React
+ * @requires React-Native
+ * @requires Keyboard-Spacer
+ * @requires React-Native-Gifted-Chat
+ * @requires CustomActions
+ * @requires React-Native-Maps
+ * @requires Firebase
+ * @requires Firestore
+ */
+
+// Import NetInfo; React and React-native components; dependencies and libraries 
+
 import React, { Component } from 'react';
-// Import React Native components
 import NetInfo from "@react-native-community/netinfo";
 import { StyleSheet, Text, View, Platform, AsyncStorage } from 'react-native';
 import { GiftedChat, InputToolbar } from 'react-native-gifted-chat';
@@ -18,6 +34,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { decode, encode } from 'base-64';
 
 // Import Firebase
+
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -32,7 +49,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 console.disableYellowBox = true;
 window.addEventListener = x => x;
 
-// Chat Screen 2 
+// Create Chat Screen 2 class 
 export default class Chat extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -52,6 +69,18 @@ export default class Chat extends Component {
       image: null,
       location: null
     };
+
+    /**
+     * Initialize Firebase
+     * @param {object} firebaseConfig
+     * @param {string} apiKey
+     * @param {string} authDomain
+     * @param {string} databaseURL
+     * @param {string} projectID
+     * @param {string} storageBucket
+     * @param {string} messagingSenderId
+     * @param {string} appId
+     */
 
     // Firebase information 
     if (!firebase.apps.length) {
@@ -89,6 +118,12 @@ export default class Chat extends Component {
     }
   };
 
+  /**
+  * Saves AsyncStorage messages
+  * @function saveMessages 
+  * @async
+  */
+
   saveMessages = async () => {
     try {
       await AsyncStorage.setItem(
@@ -115,6 +150,12 @@ export default class Chat extends Component {
       console.log(error.message);
     }
   };
+
+  /** componentDidMount is a "lifecycle method" running at various points/times
+   * during a components' lifecycle. 
+   * NetInfo is a library granting access for a user's current network status, 
+   * e.g., user is connected and/or disconnected from the network.
+   */
 
   componentDidMount() {
     NetInfo.fetch().then(state => {
@@ -167,6 +208,15 @@ export default class Chat extends Component {
       * @returns {state}
       */
 
+  /**
+   *
+   * @param {querySnapShot}: Object: Firestore Collection: Messages 
+   * This function is called from componentDidMount after the Firestore message
+   * collection has been loaded. This is where the messages are initially loaded 
+   * into state (GC-tribute line!)
+   * 
+   */
+
   onCollectionUpdate = querySnapshot => {
     const messages = [];
     querySnapshot.forEach(doc => {
@@ -190,7 +240,7 @@ export default class Chat extends Component {
   };
 
   /**
-  * Add message (interconnection between the application and Firebase)
+  * Add message (interconnection between the ChatApp and Firebase)
   * @function addMessage
   * @param {string} _id - Message ID
   * @param {string} text - Content
