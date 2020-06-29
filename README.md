@@ -3,7 +3,7 @@
 
 A React-Native project
 
-To run it, first install expo. Run:
+To run it, first install expo via the Command Line via:
 
 ### `npm install expo-cli -g`
 
@@ -19,7 +19,7 @@ In the project-folder, start the app:
 
 This will launch your default browser via Expo. If you have already installed the mobile Expo Client App, you can run it on a Smartphone and/or an emulator by either scanning the QR code. Alternatively, if you have already created and signed into your Expo account, you can replicate an iOS Smartphone environment in a browser.</br>
 
-For Android-OS development, visit [this page](https://docs.expo.io/versions/latest/workflow/android-studio-emulator/). Note, you can also "Run on Android device/emulator" via the Expo page which previously opened in your browser. However, for a more realistic Android-OS development environment, downloading and installing the Android Studio is required.
+For Android-OS development, visit this [page](https://docs.expo.io/versions/latest/workflow/android-studio-emulator/). Note, you can also "Run on Android device/emulator" via the Expo page which previously opened in your browser. However, for a more realistic Android-OS development environment, downloading and installing the Android Studio is required.
 
 ## Firebase 
 
@@ -50,5 +50,3 @@ For storage, set up Firebase account by following these steps: </br>
 12. As a back-up, keep the firebaseConfig code in a safe place for reference. </br>
 
 13. The firebaseConfig code for this project cannot be duplicated or re-used for the database storage! 
-
-[Kanban Board](https://trello.com/b/8oSiUtHo/kanban)
