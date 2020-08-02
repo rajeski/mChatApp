@@ -31,7 +31,7 @@ For storage, set up Firebase account by following these steps: </br>
 
 3. Click, "Go to console"</br>
 
-4. Click, "add project"</br>
+4. Click, "Add project"</br>
 
 5. Follow the onscreen instructions by "Creating your project"</br>
 
@@ -50,3 +50,5 @@ For storage, set up Firebase account by following these steps: </br>
 12. As a back-up, keep the firebaseConfig code in a safe place for reference. </br>
 
 13. The firebaseConfig code for this project cannot be duplicated or re-used for the database storage! 
+
+Note: Keep in mind, Firebase sets a limitation on the amount of time it stays open before the user-status needs to be changed!
