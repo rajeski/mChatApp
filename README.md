@@ -51,4 +51,4 @@ For storage, set up Firebase account by following these steps: </br>
 
 13. The firebaseConfig code for this project cannot be duplicated or re-used for the database storage! 
 
-Note: Keep in mind, Firebase sets a one-month limitation on their trial-version before requiring the account-status to be changed!
+Note: Keep in mind, Firebase sets a one-month limitation on their trial-version before requiring the user's account-status to be changed!
