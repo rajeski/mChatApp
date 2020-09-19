@@ -1,7 +1,7 @@
 # AppChat
-## Overview
+## Description / Overview
 
-A React-Native project
+A React-Native (Mobile) project
 
 To run it, first install expo via the Command Line via:
 
